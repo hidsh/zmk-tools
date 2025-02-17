@@ -67,18 +67,23 @@ else {
     exit(0)
 }
 
+exit_if(kbd_name.contains('-'),
+	'  Error: Keyboard name contains invalid character(s) "-".
+         Please recreate the repository with a valid name.
+         Otherwise, the "west" command will fail. Aborting.', -1)
+
 base_dir := './boards/shields'
 
-exit_if(!os.is_dir(base_dir), '  Error: Not found sub-folder "${base_dir}", quit.', -1)
+exit_if(!os.is_dir(base_dir), '  Error: Not found sub-folder "${base_dir}", aborting.', -1)
 
 kbd_name_l := kbd_name.to_upper()
 kbd_dir := os.join_path_single(base_dir, kbd_name)
 
 if os.is_dir(kbd_dir) {
     println('  ${kbd_dir}: folder already exists.')
-    ans := os.input('  Do you want to create only the missing files instead of quit? (y/N) ')
+    ans := os.input('  Do you want to create only the missing files instead of abort? (y/N) ')
     if ans != r'y' {
-        println('  quit.')
+        println('  Aborting.')
         exit(0)
     }
     println('')
